@@ -1,0 +1,26 @@
+<app-header></app-header>
+
+<div class="container mt-5 pt-5 mb-5 px-4">
+    <h3>Lista de comentarios - Post #{{postID}}</h3>
+    <table class="table table-hover mt-4">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let comment of comments | paginate: {itemsPerPage: 10, currentPage: pageActual}">
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.name }}</td>
+                <td>{{ comment.email }}</td>
+                <td>{{ comment.body }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls class="text-center" *ngIf="comments.length > 10" (pageChange)="pageActual = $event"></pagination-controls>
+</div>
+
+<app-footer></app-footer>

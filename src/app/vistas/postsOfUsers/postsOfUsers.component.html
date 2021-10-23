@@ -1,0 +1,58 @@
+<app-header></app-header>
+
+<div class="container mt-5 pt-5 mb-5 px-4">
+    <h3>Lista de Posts</h3>
+    <div class="text-center mb-2">
+        <h4>Buscar por usuarios</h4>
+        <div class="d-inline-flex">
+            <select class="form-select" [(ngModel)]="userSelected" (ngModelChange)='onUser($event)'>
+                <option value="">Todos</option>
+                <option *ngFor="let itemUser of itemsUsers" [value]="itemUser.value">{{ itemUser.name }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'id'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.id }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'name'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.name }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'username'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.username }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'email'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.email }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'address.city'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.address.city }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'website'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.website }}</option>
+            </select>
+            <select class="form-select" *ngIf="userSelected == 'company.name'" [(ngModel)]="userFilter" (ngModelChange)='onUserSelected($event)'>
+                <option *ngFor="let user of users; let i = index" [value]="user.id">{{ user.company.name }}</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descripción</th>
+                <th width="13%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let post of posts | paginate: {itemsPerPage: 10, currentPage: pageActual}">
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.body }}</td>
+                <td>
+                    <a [routerLink]="['/comments', post.id]" class="btn btn-primary">Ver comentarios</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination-controls class="text-center" *ngIf="posts.length > 10" (pageChange)="pageActual = $event"></pagination-controls>
+</div>
+
+<app-footer></app-footer>
